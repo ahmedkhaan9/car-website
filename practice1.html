@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PakMotors Premier | Pakistan's Ultimate Automotive Portal</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            bg: '#0b0f19',
+                            card: 'rgba(17, 24, 39, 0.75)',
+                            border: 'rgba(59, 130, 246, 0.2)',
+                            neonCyan: '#00f0ff',
+                            neonOrange: '#ff5500',
+                            accent: '#3b82f6',
+                            purple: '#8b5cf6'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 20px rgba(0, 240, 255, 0.35)',
+                        'neon-orange': '0 0 20px rgba(255, 85, 0, 0.35)',
+                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #080b12;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Glassmorphism background */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(20, 30, 50, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(0, 240, 255, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px -10px rgba(0, 240, 255, 0.25);
+        }
+
+        /* Neon Glowing Text & Effects */
+        .text-glow-cyan {
+            text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+        }
+        
+        .text-glow-orange {
+            text-shadow: 0 0 12px rgba(255, 85, 0, 0.6);
+        }
+
+        .border-glow-cyan {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080b12;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+
+        /* Animated Glowing Button */
+        .btn-neon-orange {
+            background: linear-gradient(135deg, #ff5500 0%, #ff0055 100%);
+            box-shadow: 0 4px 15px rgba(255, 85, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+        .btn-neon-orange:hover {
+            box-shadow: 0 6px 25px rgba(255, 85, 0, 0.7);
+            transform: scale(1.02);
+        }
+
+        .btn-neon-cyan {
+            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+            box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+        .btn-neon-cyan:hover {
+            box-shadow: 0 6px 25px rgba(0, 198, 255, 0.7);
+            transform: scale(1.02);
+        }
+
+        /* Animated Heart pulse */
+        @keyframes heartPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.35); }
+            100% { transform: scale(1); }
+        }
+        .animate-heart {
+            animation: heartPulse 0.4s ease-in-out;
+        }
+
+        /* Background Animated Particles */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 flex flex-col justify-between relative selection:bg-cyan-500 selection:text-black">
+
+    <!-- Canvas Background for Dynamic Particle Grid -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- HEADER & NAVIGATION -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="resetFilters()">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-orange-500 p-0.5 shadow-neon-cyan">
+                        <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+                            <i class="fa-solid fa-car-side text-cyan-400 text-xl"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-1">
+                            <span class="text-2xl font-black tracking-wider text-white">PAK<span class="text-cyan-400 text-glow-cyan">MOTORS</span></span>
+                            <span class="text-xs px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 font-bold border border-orange-500/30">PREMIER</span>
+                        </div>
+                        <p class="text-[10px] text-slate-400 tracking-widest uppercase font-semibold">Pakistan's Vehicle Ecosystem</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Quick Metrics & Actions -->
+                <div class="flex items-center space-x-3 sm:space-x-5">
+                    <!-- Liked Vehicles Drawer Trigger -->
+                    <button id="header-liked-btn" onclick="filterCategory('liked')" class="relative flex items-center space-x-2 bg-slate-900/80 hover:bg-slate-800 text-slate-200 px-4 py-2.5 rounded-xl border border-slate-700/60 transition-all hover:border-pink-500/50 group">
+                        <i class="fa-solid fa-heart text-pink-500 group-hover:scale-110 transition-transform"></i>
+                        <span class="hidden sm:inline font-medium text-sm">Saved Vehicles</span>
+                        <span id="liked-count-badge" class="bg-gradient-to-r from-pink-500 to-rose-600 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-lg">0</span>
+                    </button>
+
+                    <!-- Loan Calculator Modal Trigger -->
+                    <button onclick="toggleModal('loan-modal')" class="hidden md:flex items-center space-x-2 bg-slate-900/80 hover:bg-slate-800 text-cyan-400 px-4 py-2.5 rounded-xl border border-cyan-500/30 transition-all hover:border-cyan-400">
+                        <i class="fa-solid fa-calculator"></i>
+                        <span class="font-medium text-sm">Finance EMI</span>
+                    </button>
+
+                    <!-- Sell My Car Button -->
+                    <button onclick="toggleModal('sell-modal')" class="btn-neon-orange text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center space-x-2">
+                        <i class="fa-solid fa-plus-circle text-base"></i>
+                        <span class="tracking-wide">SELL VEHICLE</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO HERO BANNER & STATS -->
+    <section class="relative py-12 lg:py-16 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto">
+                <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 text-xs font-semibold mb-6 shadow-neon-cyan">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                    <span>OVER 400+ VERIFIED VEHICLES LIVE TODAY</span>
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+                    Drive Luxury. <br class="hidden sm:inline"/>Experience <span class="bg-gradient-to-r from-cyan-400 via-blue-500 to-orange-400 bg-clip-text text-transparent">PakMotors Excellence.</span>
+                </h1>
+                <p class="text-slate-300 text-base sm:text-lg mb-8 leading-relaxed font-normal">
+                    Explore Pakistan's largest digital showroom for Cars, Heavy Bikes, Electric Vehicles, and Commercial Transports with verified prices, detailed specs, and direct seller connectivity.
+                </p>
+
+                <!-- Dynamic Live Stats Bar -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 glass-panel p-4 rounded-2xl border border-slate-800">
+                    <div class="text-center p-2">
+                        <div class="text-2xl sm:text-3xl font-black text-cyan-400 text-glow-cyan" id="stat-total-vehicles">400+</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">Available Units</div>
+                    </div>
+                    <div class="text-center p-2 border-l border-slate-800">
+                        <div class="text-2xl sm:text-3xl font-black text-orange-400 text-glow-orange">100%</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">Verified Prices</div>
+                    </div>
+                    <div class="text-center p-2 border-l border-slate-800">
+                        <div class="text-2xl sm:text-3xl font-black text-purple-400" id="stat-liked-count">0</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">User Favorites</div>
+                    </div>
+                    <div class="text-center p-2 border-l border-slate-800">
+                        <div class="text-2xl sm:text-3xl font-black text-emerald-400">6</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">Major Hub Cities</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORY TABS & ADVANCED FILTER SYSTEM -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 flex-grow w-full">
+        
+        <!-- Category Navigation Tabs -->
+        <div class="flex items-center justify-start sm:justify-center overflow-x-auto no-scrollbar space-x-2 mb-8 pb-2 border-b border-slate-800/80">
+            <button onclick="filterCategory('all')" id="tab-all" class="cat-tab active px-5 py-3 rounded-xl font-semibold text-sm whitespace-nowrap transition-all flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg">
+                <i class="fa-solid fa-border-all"></i>
+                <span>All Vehicles (400+)</span>
+            </button>
+            <button onclick="filterCategory('Cars')" id="tab-cars" class="cat-tab px-5 py-3 rounded-xl font-semibold text-sm whitespace-nowrap transition-all flex items-center space-x-2 bg-slate-900/90 text-slate-300 hover:bg-slate-800 hover:text-white border border-slate-800">
+                <i class="fa-solid fa-car"></i>
+                <span>Cars & SUVs (100+)</span>
+            </button>
+            <button onclick="filterCategory('Bikes')" id="tab-bikes" class="cat-tab px-5 py-3 rounded-xl font-semibold text-sm whitespace-nowrap transition-all flex items-center space-x-2 bg-slate-900/90 text-slate-300 hover:bg-slate-800 hover:text-white border border-slate-800">
+                <i class="fa-solid fa-motorcycle"></i>
+                <span>Bikes & Heavy (100+)</span>
+            </button>
+            <button onclick="filterCategory('EVs')" id="tab-evs" class="cat-tab px-5 py-3 rounded-xl font-semibold text-sm whitespace-nowrap transition-all flex items-center space-x-2 bg-slate-900/90 text-slate-300 hover:bg-slate-800 hover:text-white border border-slate-800">
+                <i class="fa-solid fa-bolt text-emerald-400"></i>
+                <span>Electric Vehicles (100+)</span>
+            </button>
+            <button onclick="filterCategory('Commercial')" id="tab-commercial" class="cat-tab px-5 py-3 rounded-xl font-semibold text-sm whitespace-nowrap transition-all flex items-center space-x-2 bg-slate-900/90 text-slate-300 hover:bg-slate-800 hover:text-white border border-slate-800">
+                <i class="fa-solid fa-truck-front"></i>
+                <span>Trucks & Commercial (100+)</span>
+            </button>
+            <button onclick="filterCategory('liked')" id="tab-liked" class="cat-tab px-5 py-3 rounded-xl font-semibold text-sm whitespace-nowrap transition-all flex items-center space-x-2 bg-slate-900/90 text-pink-400 hover:bg-pink-950/30 border border-slate-800">
+                <i class="fa-solid fa-heart text-pink-500"></i>
+                <span>My Liked List (<span id="liked-tab-count">0</span>)</span>
+            </button>
+        </div>
+
+        <!-- Filter Control Box -->
+        <div class="glass-panel p-5 rounded-2xl mb-8 border border-slate-800/80 shadow-2xl space-y-4">
+            
+            <!-- Primary Search Bar -->
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+                <input type="text" id="search-input" oninput="applyFilters()" placeholder="Search make, model, category, e.g. Civic, Fortuner, YBR, BYD, Hino..." class="w-full bg-slate-950/80 text-white placeholder-slate-500 pl-12 pr-10 py-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all text-sm font-medium">
+                <button onclick="clearSearch()" id="clear-search-btn" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Dropdown Filters Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <!-- City Filter -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1.5">City Location</label>
+                    <select id="filter-city" onchange="applyFilters()" class="w-full bg-slate-900 text-slate-200 py-2.5 px-3 rounded-xl border border-slate-800 focus:border-cyan-500 focus:outline-none text-sm">
+                        <option value="All">All Cities</option>
+                        <option value="Karachi">Karachi</option>
+                        <option value="Lahore">Lahore</option>
+                        <option value="Islamabad">Islamabad</option>
+                        <option value="Rawalpindi">Rawalpindi</option>
+                        <option value="Peshawar">Peshawar</option>
+                        <option value="Multan">Multan</option>
+                    </select>
+                </div>
+
+                <!-- Fuel Type Filter -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1.5">Fuel Type</label>
+                    <select id="filter-fuel" onchange="applyFilters()" class="w-full bg-slate-900 text-slate-200 py-2.5 px-3 rounded-xl border border-slate-800 focus:border-cyan-500 focus:outline-none text-sm">
+                        <option value="All">All Fuel Types</option>
+                        <option value="Petrol">Petrol</option>
+                        <option value="Hybrid">Hybrid</option>
+                        <option value="Electric">Electric</option>
+                        <option value="Diesel">Diesel</option>
+                    </select>
+                </div>
+
+                <!-- Assembly Filter -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1.5">Assembly Type</label>
+                    <select id="filter-assembly" onchange="applyFilters()" class="w-full bg-slate-900 text-slate-200 py-2.5 px-3 rounded-xl border border-slate-800 focus:border-cyan-500 focus:outline-none text-sm">
+                        <option value="All">All Assemblies</option>
+                        <option value="Local Assembled">Local Assembled</option>
+                        <option value="Imported CBU">Imported CBU</option>
+                    </select>
+                </div>
+
+                <!-- Sort Order -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1.5">Sort Results</label>
+                    <select id="filter-sort" onchange="applyFilters()" class="w-full bg-slate-900 text-slate-200 py-2.5 px-3 rounded-xl border border-slate-800 focus:border-cyan-500 focus:outline-none text-sm">
+                        <option value="popular">Most Popular</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Top Rated</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Price Range Slider -->
+            <div class="pt-2 border-t border-slate-800/60">
+                <div class="flex justify-between items-center text-xs font-semibold text-slate-400 mb-2">
+                    <span>Max Price Filter:</span>
+                    <span id="price-slider-label" class="text-cyan-400 font-bold text-sm">PKR 5.0 Crore</span>
+                </div>
+                <input type="range" id="price-range" min="100000" max="60000000" step="500000" value="60000000" oninput="updatePriceSlider(this.value)" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
+                <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+                    <span>PKR 1 Lakh</span>
+                    <span>PKR 1 Crore</span>
+                    <span>PKR 3 Crore</span>
+                    <span>PKR 6 Crore+</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Metrics Feedback Bar -->
+        <div class="flex items-center justify-between mb-6 text-sm text-slate-400">
+            <div>
+                Showing <span id="results-count" class="text-white font-bold">0</span> vehicles
+            </div>
+            <div id="active-category-label" class="text-cyan-400 font-semibold uppercase text-xs tracking-wider">
+                Category: All
+            </div>
+        </div>
+
+        <!-- VEHICLE CARDS GRID CONTAINER -->
+        <div id="vehicle-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Cards populated dynamically via Javascript -->
+        </div>
+
+        <!-- No Results Fallback View -->
+        <div id="no-results-view" class="hidden text-center py-16 glass-panel rounded-2xl border border-slate-800 my-6">
+            <i class="fa-solid fa-car-tunnel text-5xl text-slate-600 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-2">No Vehicles Match Your Criteria</h3>
+            <p class="text-slate-400 text-sm max-w-md mx-auto mb-6">Try broadening your search term, adjusting the price slider, or switching filters.</p>
+            <button onclick="resetFilters()" class="btn-neon-cyan px-6 py-2.5 rounded-xl text-white font-semibold text-sm">
+                Reset All Filters
+            </button>
+        </div>
+
+        <!-- PAGINATION SYSTEM -->
+        <div id="pagination-container" class="flex justify-center items-center space-x-2 mt-12">
+            <!-- Dynamic page buttons -->
+        </div>
+
+    </main>
+
+    <!-- VEHICLE DETAIL MODAL -->
+    <div id="detail-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl border border-slate-700 shadow-2xl relative p-6 sm:p-8">
+            <button onclick="toggleModal('detail-modal')" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center border border-slate-700 hover:bg-slate-700 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div id="detail-modal-content">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FINANCE EMI CALCULATOR MODAL -->
+    <div id="loan-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel w-full max-w-xl rounded-3xl border border-slate-700 p-6 sm:p-8 relative shadow-2xl">
+            <button onclick="toggleModal('loan-modal')" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center border border-slate-700">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-calculator"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white">Auto Loan / EMI Estimator</h3>
+                    <p class="text-xs text-slate-400">Calculate monthly vehicle installments in Pakistan</p>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Vehicle Price (PKR)</label>
+                    <input type="number" id="calc-price" value="5000000" oninput="calculateLoan()" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white font-medium focus:border-cyan-500 focus:outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Down Payment (%)</label>
+                        <select id="calc-downpercent" onchange="calculateLoan()" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-white text-sm focus:border-cyan-500 focus:outline-none">
+                            <option value="20">20% Down Payment</option>
+                            <option value="30" selected>30% Down Payment</option>
+                            <option value="40">40% Down Payment</option>
+                            <option value="50">50% Down Payment</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Tenure (Years)</label>
+                        <select id="calc-tenure" onchange="calculateLoan()" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-white text-sm focus:border-cyan-500 focus:outline-none">
+                            <option value="1">1 Year</option>
+                            <option value="2">2 Years</option>
+                            <option value="3" selected>3 Years</option>
+                            <option value="5">5 Years</option>
+                            <option value="7">7 Years</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Estimated Interest Rate (KIBOR + Margin %)</label>
+                    <input type="number" id="calc-rate" value="18" step="0.5" oninput="calculateLoan()" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white font-medium focus:border-cyan-500 focus:outline-none">
+                </div>
+
+                <!-- Result Box -->
+                <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950/60 p-5 rounded-2xl border border-cyan-500/30 mt-6 text-center">
+                    <p class="text-xs text-slate-400 uppercase font-semibold">Estimated Monthly Installment</p>
+                    <p id="calc-result-monthly" class="text-3xl font-black text-cyan-400 text-glow-cyan my-1">PKR 125,400</p>
+                    <div class="flex justify-between text-xs text-slate-400 pt-3 border-t border-slate-800 mt-2">
+                        <span>Down Payment: <strong id="calc-result-down" class="text-white">PKR 1,500,000</strong></span>
+                        <span>Total Principal: <strong id="calc-result-principal" class="text-white">PKR 3,500,000</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SELL VEHICLE MODAL -->
+    <div id="sell-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl border border-slate-700 p-6 sm:p-8 relative shadow-2xl">
+            <button onclick="toggleModal('sell-modal')" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center border border-slate-700">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-car"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white">Sell Your Vehicle</h3>
+                    <p class="text-xs text-slate-400">Add custom vehicle listing directly to PakMotors Premier</p>
+                </div>
+            </div>
+
+            <form id="sell-form" onsubmit="submitCustomVehicle(event)" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Vehicle Title / Model *</label>
+                        <input type="text" id="sell-title" required placeholder="e.g. Honda Civic Oriel 2024" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm focus:border-cyan-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Category *</label>
+                        <select id="sell-category" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-white text-sm focus:border-cyan-500 focus:outline-none">
+                            <option value="Cars">Car / SUV</option>
+                            <option value="Bikes">Motorcycle / Bike</option>
+                            <option value="EVs">Electric Vehicle</option>
+                            <option value="Commercial">Truck / Commercial</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Price (PKR) *</label>
+                        <input type="number" id="sell-price" required placeholder="e.g. 8500000" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm focus:border-cyan-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-slate-400 mb-1">City *</label>
+                        <select id="sell-city" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-white text-sm focus:border-cyan-500 focus:outline-none">
+                            <option value="Lahore">Lahore</option>
+                            <option value="Karachi">Karachi</option>
+                            <option value="Islamabad">Islamabad</option>
+                            <option value="Rawalpindi">Rawalpindi</option>
+                            <option value="Peshawar">Peshawar</option>
+                            <option value="Multan">Multan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Fuel Type</label>
+                        <select id="sell-fuel" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-white text-sm focus:border-cyan-500 focus:outline-none">
+                            <option value="Petrol">Petrol</option>
+                            <option value="Hybrid">Hybrid</option>
+                            <option value="Electric">Electric</option>
+                            <option value="Diesel">Diesel</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Engine / Battery</label>
+                        <input type="text" id="sell-engine" placeholder="e.g. 1500 cc / 60 kWh" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm focus:border-cyan-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Mileage (km)</label>
+                        <input type="text" id="sell-mileage" placeholder="e.g. 12,000 km" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm focus:border-cyan-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Image URL (Optional)</label>
+                    <input type="url" id="sell-image" placeholder="https://images.unsplash.com/..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm focus:border-cyan-500 focus:outline-none">
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="w-full btn-neon-orange py-3.5 rounded-xl font-bold text-white tracking-wider uppercase text-sm">
+                        Publish Listing Now
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="glass-panel border-t border-slate-800/80 py-10 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 justify-center sm:justify-start mb-3">
+                        <span class="text-xl font-black text-white">PAK<span class="text-cyan-400">MOTORS</span></span>
+                        <span class="text-xs px-2 py-0.5 rounded bg-orange-500/20 text-orange-400 font-bold">PREMIER</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Pakistan's premier digital automotive marketplace with verified listings, technical specs, transparent PKR pricing, and instant seller connections.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-3">Quick Navigation</h4>
+                    <ul class="text-xs space-y-2 text-slate-400">
+                        <li><a href="#" onclick="filterCategory('Cars')" class="hover:text-cyan-400">Cars & SUVs</a></li>
+                        <li><a href="#" onclick="filterCategory('Bikes')" class="hover:text-cyan-400">Bikes & Motorcycles</a></li>
+                        <li><a href="#" onclick="filterCategory('EVs')" class="hover:text-cyan-400">Electric Vehicles</a></li>
+                        <li><a href="#" onclick="filterCategory('Commercial')" class="hover:text-cyan-400">Heavy Trucks & Transports</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-3">Popular Hub Cities</h4>
+                    <ul class="text-xs space-y-2 text-slate-400">
+                        <li>Karachi Showrooms</li>
+                        <li>Lahore Dealerships</li>
+                        <li>Islamabad Luxury Autos</li>
+                        <li>Rawalpindi & Peshawar Hubs</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-3">Automotive Support</h4>
+                    <p class="text-xs text-slate-400 mb-3">Need assistance or vehicle verification advice?</p>
+                    <button onclick="toggleModal('loan-modal')" class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-400 py-2.5 rounded-xl text-xs font-semibold border border-slate-700">
+                        Open EMI Loan Calculator
+                    </button>
+                </div>
+            </div>
+            <div class="border-t border-slate-800/80 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
+                <p>&copy; 2026 PakMotors Premier. All Rights Reserved. Clean Modern English Edition.</p>
+                <div class="flex space-x-4 mt-3 sm:mt-0">
+                    <span class="hover:text-slate-400 cursor-pointer">Privacy Policy</span>
+                    <span class="hover:text-slate-400 cursor-pointer">Terms of Service</span>
+                    <span class="hover:text-slate-400 cursor-pointer">Verification Guarantee</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC & 400+ VEHICLE DATASET GENERATOR -->
+    <script>
+        
+        // Data archetypes for programmatic generation of 400+ realistic Pakistani vehicles
+        const CITIES = ['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Peshawar', 'Multan'];
+        const TRANSMISSIONS = ['Automatic', 'Manual', 'CVT', 'Tiptronic', 'Single Speed'];
+        const ASSEMBLIES = ['Local Assembled', 'Imported CBU'];
+
+        // Sample Unsplash High Quality Vehicle Photos
+        const CAR_IMAGES = [
+            "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80"
+        ];
+
+        const BIKE_IMAGES = [
+            "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&w=800&q=80"
+        ];
+
+        const EV_IMAGES = [
+            "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=800&q=80"
+        ];
+
+        const TRUCK_IMAGES = [
+            "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=800&q=80"
+        ];
+
+        // Seed data structures for procedural synthesis
+        const CAR_MODELS = [
+            { name: "Toyota Fortuner Legender 2.8", basePrice: 18900000, fuel: "Diesel", engine: "2755 cc", avg: "10-12 km/l" },
+            { name: "Toyota Hilux Revo Rocco", basePrice: 15300000, fuel: "Diesel", engine: "2755 cc", avg: "11 km/l" },
+            { name: "Honda Civic RS Turbo", basePrice: 9800000, fuel: "Petrol", engine: "1498 cc", avg: "12-14 km/l" },
+            { name: "Toyota Corolla Altis Grande 1.8", basePrice: 7600000, fuel: "Petrol", engine: "1798 cc", avg: "13-15 km/l" },
+            { name: "Suzuki Alto VXL AGS", basePrice: 3050000, fuel: "Petrol", engine: "658 cc", avg: "18-22 km/l" },
+            { name: "Haval H6 HEV Hybrid", basePrice: 11800000, fuel: "Hybrid", engine: "1497 cc", avg: "18 km/l" },
+            { name: "Hyundai Tucson AWD Ultimate", basePrice: 8900000, fuel: "Petrol", engine: "1999 cc", avg: "10-12 km/l" },
+            { name: "KIA Sportage AWD", basePrice: 8500000, fuel: "Petrol", engine: "1999 cc", avg: "11 km/l" },
+            { name: "MG HS 1.5 Turbo Essential", basePrice: 8100000, fuel: "Petrol", engine: "1490 cc", avg: "11-13 km/l" },
+            { name: "Changan Alsvin 1.5 Lumiere", basePrice: 4549000, fuel: "Petrol", engine: "1480 cc", avg: "14-16 km/l" },
+            { name: "Hyundai Elantra 2.0 GLS", basePrice: 7100000, fuel: "Petrol", engine: "1999 cc", avg: "12-14 km/l" },
+            { name: "KIA Stonic EX+", basePrice: 5500000, fuel: "Petrol", engine: "1330 cc", avg: "13-15 km/l" },
+            { name: "Proton X70 Flagship AWD", basePrice: 8800000, fuel: "Petrol", engine: "1477 cc", avg: "11-13 km/l" },
+            { name: "Suzuki Swift GLX CVT", basePrice: 4710000, fuel: "Petrol", engine: "1197 cc", avg: "15-18 km/l" },
+            { name: "Toyota Yaris Ativ CVT 1.5", basePrice: 5600000, fuel: "Petrol", engine: "1496 cc", avg: "14-16 km/l" },
+            { name: "Honda City 1.5 Aspire CVT", basePrice: 5850000, fuel: "Petrol", engine: "1497 cc", avg: "14-17 km/l" },
+            { name: "Suzuki Cultus VXL", basePrice: 3850000, fuel: "Petrol", engine: "998 cc", avg: "16-18 km/l" },
+            { name: "Changan Oshan X7 FutureSense", basePrice: 8950000, fuel: "Petrol", engine: "1499 cc", avg: "12-14 km/l" },
+            { name: "Cherry Tiggo 8 Pro 7-Seater", basePrice: 10400000, fuel: "Petrol", engine: "1598 cc", avg: "11-13 km/l" },
+            { name: "Peugeot 2008 Active", basePrice: 7050000, fuel: "Petrol", engine: "1199 cc", avg: "13-15 km/l" }
+        ];
+
+        const BIKE_MODELS = [
+            { name: "Honda CG125 Special Edition", basePrice: 282000, fuel: "Petrol", engine: "125 cc", avg: "40-45 km/l" },
+            { name: "Honda CD70 Dream 2026", basePrice: 168000, fuel: "Petrol", engine: "78 cc", avg: "55-60 km/l" },
+            { name: "Yamaha YBR125G Limited", basePrice: 485000, fuel: "Petrol", engine: "124 cc", avg: "42-48 km/l" },
+            { name: "Suzuki GS150 SE", basePrice: 382000, fuel: "Petrol", engine: "150 cc", avg: "38-42 km/l" },
+            { name: "Benelli 180S Sport", basePrice: 880000, fuel: "Petrol", engine: "175 cc", avg: "35 km/l" },
+            { name: "Kawasaki Ninja 400 ABS", basePrice: 3400000, fuel: "Petrol", engine: "399 cc", avg: "25 km/l" },
+            { name: "Suzuki GR150 Touring", basePrice: 540000, fuel: "Petrol", engine: "150 cc", avg: "40 km/l" },
+            { name: "Honda CB150F SE", basePrice: 493000, fuel: "Petrol", engine: "149 cc", avg: "40-45 km/l" },
+            { name: "Hi-Speed Freedom 200cc", basePrice: 410000, fuel: "Petrol", engine: "200 cc", avg: "30-35 km/l" },
+            { name: "Yamaha YB125Z DX", basePrice: 440000, fuel: "Petrol", engine: "125 cc", avg: "45 km/l" }
+        ];
+
+        const EV_MODELS = [
+            { name: "BYD Seal Performance AWD", basePrice: 15800000, fuel: "Electric", engine: "82.5 kWh", avg: "520 km Range" },
+            { name: "BYD Atto 3 Superior", basePrice: 8900000, fuel: "Electric", engine: "60.4 kWh", avg: "420 km Range" },
+            { name: "Deepal S07 SUV EV", basePrice: 14900000, fuel: "Electric", engine: "66.8 kWh", avg: "485 km Range" },
+            { name: "MG ZS EV Long Range", basePrice: 12900000, fuel: "Electric", engine: "72.6 kWh", avg: "440 km Range" },
+            { name: "Audi e-tron GT Quattro", basePrice: 48000000, fuel: "Electric", engine: "93.4 kWh", avg: "488 km Range" },
+            { name: "Honri Ve 2.0 City EV", basePrice: 3990000, fuel: "Electric", engine: "18.5 kWh", avg: "200 km Range" },
+            { name: "Rinco Aria Compact EV", basePrice: 3200000, fuel: "Electric", engine: "17 kWh", avg: "160 km Range" },
+            { name: "Vlektra Retro E-Bike", basePrice: 399000, fuel: "Electric", engine: "72V 32Ah", avg: "100 km Range" },
+            { name: "Yadea T9 E-Scooter", basePrice: 245000, fuel: "Electric", engine: "60V 32Ah", avg: "90 km Range" },
+            { name: "Metro T9 Electric Scooter", basePrice: 265000, fuel: "Electric", engine: "60V Lithium", avg: "105 km Range" }
+        ];
+
+        const COMMERCIAL_MODELS = [
+            { name: "Hino 500 Series Heavy Truck", basePrice: 18500000, fuel: "Diesel", engine: "7684 cc", avg: "4-6 km/l" },
+            { name: "Isuzu NPR Truck 4.3L", basePrice: 9200000, fuel: "Diesel", engine: "4334 cc", avg: "7-9 km/l" },
+            { name: "Master Shehzore Pickup 2.8L", basePrice: 4200000, fuel: "Diesel", engine: "2771 cc", avg: "10-12 km/l" },
+            { name: "FAW J6P 420 Heavy Hauler", basePrice: 21500000, fuel: "Diesel", engine: "11050 cc", avg: "3-5 km/l" },
+            { name: "Dongfeng Captain D9 Dumper", basePrice: 14500000, fuel: "Diesel", engine: "6700 cc", avg: "5-7 km/l" },
+            { name: "Sazgar Auto Rickshaw 200cc", basePrice: 450000, fuel: "Petrol", engine: "200 cc", avg: "25-30 km/l" },
+            { name: "JW Forland Safari Cargo Loader", basePrice: 2950000, fuel: "Diesel", engine: "1800 cc", avg: "11 km/l" },
+            { name: "Hyundai Mighty EX8 Truck", basePrice: 11200000, fuel: "Diesel", engine: "3907 cc", avg: "8 km/l" }
+        ];
+
+        // Global State variables
+        let ALL_VEHICLES = [];
+        let currentFilteredList = [];
+        let activeCategory = 'all';
+        let currentPage = 1;
+        const itemsPerPage = 20;
+        let likedIds = JSON.parse(localStorage.getItem('pakmotors_liked_ids') || '[]');
+
+        function generateMassiveDataset() {
+            let list = [];
+            let idCounter = 1000;
+
+            // Generate 110 Cars
+            for (let i = 0; i < 110; i++) {
+                const base = CAR_MODELS[i % CAR_MODELS.length];
+                const year = 2022 + (i % 5);
+                const priceVariation = 1 + ((i % 7) - 3) * 0.03;
+                list.push({
+                    id: ++idCounter,
+                    title: `${base.name} (${year})`,
+                    category: 'Cars',
+                    price: Math.round(base.basePrice * priceVariation),
+                    city: CITIES[i % CITIES.length],
+                    fuel: base.fuel,
+                    engine: base.engine,
+                    avg: base.avg,
+                    transmission: TRANSMISSIONS[i % TRANSMISSIONS.length],
+                    assembly: ASSEMBLIES[i % ASSEMBLIES.length],
+                    mileage: `${(i * 3500 + 1200).toLocaleString()} km`,
+                    rating: (4.2 + (i % 8) * 0.1).toFixed(1),
+                    image: CAR_IMAGES[i % CAR_IMAGES.length],
+                    dealer: `PakMotors Certified Dealer #${(i % 12) + 1}`,
+                    phone: `+92300${Math.floor(1000000 + Math.random() * 9000000)}`
+                });
+            }
+
+            // Generate 100 Bikes
+            for (let i = 0; i < 100; i++) {
+                const base = BIKE_MODELS[i % BIKE_MODELS.length];
+                const year = 2023 + (i % 4);
+                const priceVariation = 1 + ((i % 5) - 2) * 0.02;
+                list.push({
+                    id: ++idCounter,
+                    title: `${base.name} (${year})`,
+                    category: 'Bikes',
+                    price: Math.round(base.basePrice * priceVariation),
+                    city: CITIES[(i + 2) % CITIES.length],
+                    fuel: base.fuel,
+                    engine: base.engine,
+                    avg: base.avg,
+                    transmission: 'Manual',
+                    assembly: ASSEMBLIES[i % 2],
+                    mileage: `${(i * 1200 + 500).toLocaleString()} km`,
+                    rating: (4.1 + (i % 9) * 0.1).toFixed(1),
+                    image: BIKE_IMAGES[i % BIKE_IMAGES.length],
+                    dealer: `Premier Motorcycle Center #${(i % 8) + 1}`,
+                    phone: `+92321${Math.floor(1000000 + Math.random() * 9000000)}`
+                });
+            }
+
+            // Generate 100 EVs & E-Bikes
+            for (let i = 0; i < 100; i++) {
+                const base = EV_MODELS[i % EV_MODELS.length];
+                const year = 2024 + (i % 3);
+                const priceVariation = 1 + ((i % 4) - 2) * 0.02;
+                list.push({
+                    id: ++idCounter,
+                    title: `${base.name} (${year})`,
+                    category: 'EVs',
+                    price: Math.round(base.basePrice * priceVariation),
+                    city: CITIES[(i + 4) % CITIES.length],
+                    fuel: 'Electric',
+                    engine: base.engine,
+                    avg: base.avg,
+                    transmission: 'Automatic / Direct',
+                    assembly: ASSEMBLIES[i % 2 === 0 ? 1 : 0],
+                    mileage: `${(i * 800 + 100).toLocaleString()} km`,
+                    rating: (4.5 + (i % 5) * 0.1).toFixed(1),
+                    image: EV_IMAGES[i % EV_IMAGES.length],
+                    dealer: `PakMotors GreenEV Gallery #${(i % 6) + 1}`,
+                    phone: `+92333${Math.floor(1000000 + Math.random() * 9000000)}`
+                });
+            }
+
+            // Generate 100 Commercial & Heavy Trucks
+            for (let i = 0; i < 100; i++) {
+                const base = COMMERCIAL_MODELS[i % COMMERCIAL_MODELS.length];
+                const year = 2021 + (i % 6);
+                const priceVariation = 1 + ((i % 6) - 3) * 0.04;
+                list.push({
+                    id: ++idCounter,
+                    title: `${base.name} (${year})`,
+                    category: 'Commercial',
+                    price: Math.round(base.basePrice * priceVariation),
+                    city: CITIES[(i + 1) % CITIES.length],
+                    fuel: base.fuel,
+                    engine: base.engine,
+                    avg: base.avg,
+                    transmission: i % 3 === 0 ? 'Automatic' : 'Manual',
+                    assembly: ASSEMBLIES[i % 2],
+                    mileage: `${(i * 8000 + 5000).toLocaleString()} km`,
+                    rating: (4.0 + (i % 8) * 0.1).toFixed(1),
+                    image: TRUCK_IMAGES[i % TRUCK_IMAGES.length],
+                    dealer: `PakMotors Heavy Commercial Hub #${(i % 5) + 1}`,
+                    phone: `+92345${Math.floor(1000000 + Math.random() * 9000000)}`
+                });
+            }
+
+            ALL_VEHICLES = list;
+            currentFilteredList = [...ALL_VEHICLES];
+            updateLikedBadges();
+        }
+
+        function formatPKR(price) {
+            if (price >= 10000000) {
+                const crores = (price / 10000000).toFixed(2);
+                return `PKR ${crores} Crore`;
+            } else if (price >= 100000) {
+                const lakhs = (price / 100000).toFixed(2);
+                return `PKR ${lakhs} Lakh`;
+            } else {
+                return `PKR ${price.toLocaleString()}`;
+            }
+        }
+
+        function toggleLike(id, event) {
+            if (event) event.stopPropagation();
+            
+            const index = likedIds.indexOf(id);
+            if (index === -1) {
+                likedIds.push(id);
+            } else {
+                likedIds.splice(index, 1);
+            }
+
+            localStorage.setItem('pakmotors_liked_ids', JSON.stringify(likedIds));
+            updateLikedBadges();
+
+            // Re-render visible list if in 'liked' category view or update heart UI
+            if (activeCategory === 'liked') {
+                applyFilters();
+            } else {
+                renderVehicleGrid();
+            }
+        }
+
+        function updateLikedBadges() {
+            const count = likedIds.length;
+            document.getElementById('liked-count-badge').innerText = count;
+            document.getElementById('liked-tab-count').innerText = count;
+            document.getElementById('stat-liked-count').innerText = count;
+        }
+
+        function filterCategory(cat) {
+            activeCategory = cat;
+            currentPage = 1;
+
+            // Update UI Tab active states
+            document.querySelectorAll('.cat-tab').forEach(btn => {
+                btn.className = "cat-tab px-5 py-3 rounded-xl font-semibold text-sm whitespace-nowrap transition-all flex items-center space-x-2 bg-slate-900/90 text-slate-300 hover:bg-slate-800 hover:text-white border border-slate-800";
+            });
+
+            const activeBtn = document.getElementById(`tab-${cat.toLowerCase()}`);
+            if (activeBtn) {
+                if (cat === 'liked') {
+                    activeBtn.className = "cat-tab active px-5 py-3 rounded-xl font-semibold text-sm whitespace-nowrap transition-all flex items-center space-x-2 bg-gradient-to-r from-pink-600 to-rose-500 text-white shadow-lg";
+                } else {
+                    activeBtn.className = "cat-tab active px-5 py-3 rounded-xl font-semibold text-sm whitespace-nowrap transition-all flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg";
+                }
+            }
+
+            document.getElementById('active-category-label').innerText = `Category: ${cat === 'all' ? 'All Vehicles' : cat}`;
+            applyFilters();
+        }
+
+        function updatePriceSlider(val) {
+            const price = parseInt(val);
+            document.getElementById('price-slider-label').innerText = formatPKR(price);
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const searchQuery = document.getElementById('search-input').value.toLowerCase().trim();
+            const selectedCity = document.getElementById('filter-city').value;
+            const selectedFuel = document.getElementById('filter-fuel').value;
+            const selectedAssembly = document.getElementById('filter-assembly').value;
+            const sortOrder = document.getElementById('filter-sort').value;
+            const maxPrice = parseInt(document.getElementById('price-range').value);
+
+            // Toggle Search Clear Button
+            const clearBtn = document.getElementById('clear-search-btn');
+            if (searchQuery.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            currentFilteredList = ALL_VEHICLES.filter(v => {
+                // Category Filter
+                if (activeCategory === 'liked') {
+                    if (!likedIds.includes(v.id)) return false;
+                } else if (activeCategory !== 'all' && v.category !== activeCategory) {
+                    return false;
+                }
+
+                // City Filter
+                if (selectedCity !== 'All' && v.city !== selectedCity) return false;
+
+                // Fuel Filter
+                if (selectedFuel !== 'All' && v.fuel !== selectedFuel) return false;
+
+                // Assembly Filter
+                if (selectedAssembly !== 'All' && v.assembly !== selectedAssembly) return false;
+
+                // Price Filter
+                if (v.price > maxPrice) return false;
+
+                // Search Query
+                if (searchQuery) {
+                    const matchText = `${v.title} ${v.category} ${v.city} ${v.engine} ${v.fuel}`.toLowerCase();
+                    if (!matchText.includes(searchQuery)) return false;
+                }
+
+                return true;
+            });
+
+            // Sorting Engine
+            if (sortOrder === 'price-low') {
+                currentFilteredList.sort((a, b) => a.price - b.price);
+            } else if (sortOrder === 'price-high') {
+                currentFilteredList.sort((a, b) => b.price - a.price);
+            } else if (sortOrder === 'rating') {
+                currentFilteredList.sort((a, b) => b.rating - a.rating);
+            }
+
+            document.getElementById('results-count').innerText = currentFilteredList.length;
+            currentPage = 1;
+            renderVehicleGrid();
+            renderPagination();
+        }
+
+        function clearSearch() {
+            document.getElementById('search-input').value = '';
+            applyFilters();
+        }
+
+        function resetFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('filter-city').value = 'All';
+            document.getElementById('filter-fuel').value = 'All';
+            document.getElementById('filter-assembly').value = 'All';
+            document.getElementById('filter-sort').value = 'popular';
+            document.getElementById('price-range').value = '60000000';
+            document.getElementById('price-slider-label').innerText = 'PKR 6.0 Crore+';
+            filterCategory('all');
+        }
+
+        function renderVehicleGrid() {
+            const grid = document.getElementById('vehicle-grid');
+            const noResults = document.getElementById('no-results-view');
+            grid.innerHTML = '';
+
+            if (currentFilteredList.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            const startIdx = (currentPage - 1) * itemsPerPage;
+            const pageItems = currentFilteredList.slice(startIdx, startIdx + itemsPerPage);
+
+            pageItems.forEach(v => {
+                const isLiked = likedIds.includes(v.id);
+                const cardHtml = `
+                    <div onclick="openDetailModal(${v.id})" class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer group relative">
+                        <!-- Top Image & Badges -->
+                        <div class="relative h-48 w-full overflow-hidden bg-slate-900">
+                            <img src="${v.image}" alt="${v.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 loading="lazy" onerror="this.src='https://placehold.co/800x500/1e293b/00f0ff?text=PakMotors+Premier'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30"></div>
+                            
+                            <!-- Category Badge -->
+                            <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-cyan-400 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-cyan-500/30 uppercase">
+                                ${v.category}
+                            </span>
+
+                            <!-- Like Heart Button -->
+                            <button onclick="toggleLike(${v.id}, event)" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-slate-950/80 backdrop-blur-md flex items-center justify-center border border-slate-700/80 hover:border-pink-500 transition-all ${isLiked ? 'text-pink-500 animate-heart' : 'text-slate-400 hover:text-white'}">
+                                <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart text-base"></i>
+                            </button>
+
+                            <!-- Rating Badge -->
+                            <div class="absolute bottom-3 left-3 flex items-center space-x-1 text-xs bg-slate-950/90 text-amber-400 px-2 py-0.5 rounded-md border border-slate-800">
+                                <i class="fa-solid fa-star text-[10px]"></i>
+                                <span class="font-bold text-white">${v.rating}</span>
+                            </div>
+                        </div>
+
+                        <!-- Content Body -->
+                        <div class="p-4 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-base text-white group-hover:text-cyan-400 transition-colors line-clamp-1">${v.title}</h3>
+                                <p class="text-xl font-black text-cyan-400 text-glow-cyan my-1.5">${formatPKR(v.price)}</p>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2 text-[11px] text-slate-400 border-t border-slate-800/80 pt-3 my-2">
+                                <div class="flex items-center space-x-1.5">
+                                    <i class="fa-solid fa-location-dot text-cyan-500"></i>
+                                    <span class="truncate">${v.city}</span>
+                                </div>
+                                <div class="flex items-center space-x-1.5">
+                                    <i class="fa-solid fa-gas-pump text-orange-400"></i>
+                                    <span class="truncate">${v.fuel}</span>
+                                </div>
+                                <div class="flex items-center space-x-1.5">
+                                    <i class="fa-solid fa-gauge text-purple-400"></i>
+                                    <span class="truncate">${v.engine}</span>
+                                </div>
+                                <div class="flex items-center space-x-1.5">
+                                    <i class="fa-solid fa-road text-emerald-400"></i>
+                                    <span class="truncate">${v.avg}</span>
+                                </div>
+                            </div>
+
+                            <!-- Footer Card Action Button -->
+                            <div class="pt-2 flex items-center justify-between text-xs text-slate-400 group-hover:text-cyan-300">
+                                <span class="font-semibold text-[11px] uppercase">${v.assembly}</span>
+                                <span class="flex items-center space-x-1">
+                                    <span>Details</span>
+                                    <i class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += cardHtml;
+            });
+        }
+
+        function renderPagination() {
+            const container = document.getElementById('pagination-container');
+            container.innerHTML = '';
+
+            const totalPages = Math.ceil(currentFilteredList.length / itemsPerPage);
+            if (totalPages <= 1) return;
+
+            // Previous Button
+            const prevBtn = document.createElement('button');
+            prevBtn.className = `px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-800 ${currentPage === 1 ? 'bg-slate-900 text-slate-600 cursor-not-allowed' : 'bg-slate-900 text-slate-200 hover:bg-slate-800'}`;
+            prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left mr-1"></i> Prev';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => { if (currentPage > 1) { currentPage--; renderVehicleGrid(); renderPagination(); window.scrollTo({top: 400, behavior: 'smooth'}); } };
+            container.appendChild(prevBtn);
+
+            // Page Number Display
+            const pageInfo = document.createElement('span');
+            pageInfo.className = 'px-4 text-xs font-semibold text-slate-400';
+            pageInfo.innerText = `Page ${currentPage} of ${totalPages}`;
+            container.appendChild(pageInfo);
+
+            // Next Button
+            const nextBtn = document.createElement('button');
+            nextBtn.className = `px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-800 ${currentPage === totalPages ? 'bg-slate-900 text-slate-600 cursor-not-allowed' : 'bg-slate-900 text-slate-200 hover:bg-slate-800'}`;
+            nextBtn.innerHTML = 'Next <i class="fa-solid fa-chevron-right ml-1"></i>';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => { if (currentPage < totalPages) { currentPage++; renderVehicleGrid(); renderPagination(); window.scrollTo({top: 400, behavior: 'smooth'}); } };
+            container.appendChild(nextBtn);
+        }
+
+        function openDetailModal(id) {
+            const vehicle = ALL_VEHICLES.find(v => v.id === id);
+            if (!vehicle) return;
+
+            const isLiked = likedIds.includes(vehicle.id);
+            const content = document.getElementById('detail-modal-content');
+
+            content.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Left Column: HD Image Gallery Showcase -->
+                    <div>
+                        <div class="relative h-64 sm:h-80 rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 mb-4">
+                            <img id="main-detail-img" src="${vehicle.image}" alt="${vehicle.title}" class="w-full h-full object-cover">
+                            <span class="absolute top-4 left-4 bg-cyan-500 text-slate-950 font-bold text-xs px-3 py-1 rounded-lg">
+                                ${vehicle.category}
+                            </span>
+                        </div>
+
+                        <!-- Spec Highlights Grid -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 text-center">
+                                <span class="block text-[10px] uppercase text-slate-500 font-bold">Engine / Battery</span>
+                                <span class="text-sm font-bold text-slate-200">${vehicle.engine}</span>
+                            </div>
+                            <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 text-center">
+                                <span class="block text-[10px] uppercase text-slate-500 font-bold">Mileage</span>
+                                <span class="text-sm font-bold text-slate-200">${vehicle.mileage}</span>
+                            </div>
+                            <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 text-center">
+                                <span class="block text-[10px] uppercase text-slate-500 font-bold">Avg Economy</span>
+                                <span class="text-sm font-bold text-slate-200">${vehicle.avg}</span>
+                            </div>
+                            <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 text-center">
+                                <span class="block text-[10px] uppercase text-slate-500 font-bold">Transmission</span>
+                                <span class="text-sm font-bold text-slate-200">${vehicle.transmission}</span>
+                            </div>
+                            <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 text-center">
+                                <span class="block text-[10px] uppercase text-slate-500 font-bold">Assembly</span>
+                                <span class="text-sm font-bold text-slate-200">${vehicle.assembly}</span>
+                            </div>
+                            <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 text-center">
+                                <span class="block text-[10px] uppercase text-slate-500 font-bold">City</span>
+                                <span class="text-sm font-bold text-cyan-400">${vehicle.city}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Specs, Dealer Info & Actions -->
+                    <div class="flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Verified Listing</span>
+                                <button onclick="toggleLike(${vehicle.id})" class="flex items-center space-x-2 text-xs font-bold ${isLiked ? 'text-pink-500' : 'text-slate-400 hover:text-white'}">
+                                    <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart text-base"></i>
+                                    <span>${isLiked ? 'Saved in Likes' : 'Add to Favorites'}</span>
+                                </button>
+                            </div>
+
+                            <h2 class="text-2xl font-black text-white mb-2">${vehicle.title}</h2>
+                            <div class="text-3xl font-black text-cyan-400 text-glow-cyan mb-6">${formatPKR(vehicle.price)}</div>
+
+                            <!-- Seller / Dealer Contact Panel -->
+                            <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 mb-6 space-y-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">
+                                        <i class="fa-solid fa-user-shield"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-bold text-white">${vehicle.dealer}</h4>
+                                        <p class="text-xs text-slate-400">PakMotors Verified Premier Partner &bull; ${vehicle.city}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CTA Buttons -->
+                        <div class="space-y-3 pt-4 border-t border-slate-800">
+                            <a href="https://wa.me/${vehicle.phone.replace('+','')}" target="_blank" class="w-full btn-neon-cyan py-3.5 rounded-xl text-white font-bold text-center block text-sm tracking-wide">
+                                <i class="fa-brands fa-whatsapp text-lg mr-2"></i> CONTACT SELLER ON WHATSAPP
+                            </a>
+                            <button onclick="toggleModal('detail-modal'); fillLoanCalc(${vehicle.price}); toggleModal('loan-modal')" class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700 py-3 rounded-xl font-bold text-sm">
+                                <i class="fa-solid fa-calculator mr-2"></i> ESTIMATE MONTHLY LOAN EMI
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            toggleModal('detail-modal');
+        }
+
+        function fillLoanCalc(price) {
+            document.getElementById('calc-price').value = price;
+            calculateLoan();
+        }
+
+        function calculateLoan() {
+            const price = parseFloat(document.getElementById('calc-price').value) || 0;
+            const downPercent = parseFloat(document.getElementById('calc-downpercent').value) / 100;
+            const years = parseInt(document.getElementById('calc-tenure').value);
+            const annualRate = parseFloat(document.getElementById('calc-rate').value) / 100;
+
+            const downPayment = price * downPercent;
+            const principal = price - downPayment;
+            const monthlyRate = annualRate / 12;
+            const totalMonths = years * 12;
+
+            let monthlyPayment = 0;
+            if (principal > 0 && monthlyRate > 0) {
+                monthlyPayment = (principal * monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
+            }
+
+            document.getElementById('calc-result-monthly').innerText = `PKR ${Math.round(monthlyPayment).toLocaleString()}`;
+            document.getElementById('calc-result-down').innerText = `PKR ${Math.round(downPayment).toLocaleString()}`;
+            document.getElementById('calc-result-principal').innerText = `PKR ${Math.round(principal).toLocaleString()}`;
+        }
+
+        function submitCustomVehicle(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('sell-title').value;
+            const category = document.getElementById('sell-category').value;
+            const price = parseInt(document.getElementById('sell-price').value);
+            const city = document.getElementById('sell-city').value;
+            const fuel = document.getElementById('sell-fuel').value;
+            const engine = document.getElementById('sell-engine').value || 'Custom Spec';
+            const mileage = document.getElementById('sell-mileage').value || '0 km';
+            const imageUrl = document.getElementById('sell-image').value || CAR_IMAGES[0];
+
+            const newVehicle = {
+                id: Date.now(),
+                title: title,
+                category: category,
+                price: price,
+                city: city,
+                fuel: fuel,
+                engine: engine,
+                avg: '12-15 km/l',
+                transmission: 'Automatic',
+                assembly: 'Local Assembled',
+                mileage: mileage,
+                rating: '5.0',
+                image: imageUrl,
+                dealer: 'Private User Listing',
+                phone: '+923000000000'
+            };
+
+            ALL_VEHICLES.unshift(newVehicle);
+            document.getElementById('stat-total-vehicles').innerText = `${ALL_VEHICLES.length}+`;
+            toggleModal('sell-modal');
+            document.getElementById('sell-form').reset();
+            
+            // Filter to view new listing
+            filterCategory('all');
+        }
+
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            } else {
+                modal.classList.add('opacity-0');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+        }
+
+        function initBgCanvas() {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            const particles = [];
+            for (let i = 0; i < 45; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.8 + 0.5,
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4,
+                    color: Math.random() > 0.5 ? 'rgba(0, 240, 255, ' : 'rgba(255, 85, 0, '
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    if (p.x < 0) p.x = canvas.width;
+                    if (p.x > canvas.width) p.x = 0;
+                    if (p.y < 0) p.y = canvas.height;
+                    if (p.y > canvas.height) p.y = 0;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color + '0.4)';
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        // Initialize application on load
+        window.onload = function() {
+            generateMassiveDataset();
+            applyFilters();
+            calculateLoan();
+            initBgCanvas();
+        };
+    </script>
+</body>
+</html>
